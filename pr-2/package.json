@@ -1,11 +1,11 @@
 {
-  "name": "students-management",
+  "name": "nodejs-pr2-async-students",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node task/index.js"
-
+    "start": "node task/index.js",
+    "report": "node task/reporters/BackupReporter.js"
   },
   "author": "",
   "license": "ISC",
