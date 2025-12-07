@@ -8,7 +8,7 @@ const studentService = new StudentService(logger);
 // Load existing students
 studentService.loadFromFile();
 
-// Add demo students
+// Add students
 studentService.addStudent("John Doe", 20, 2);
 studentService.addStudent("Jane Smith", 23, 3);
 studentService.addStudent("Mike Johnson", 18, 2);

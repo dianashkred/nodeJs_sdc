@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1001",
+    "name": "Demo Alice",
+    "age": 21,
+    "group": 1
+  },
+  {
+    "id": "1002",
+    "name": "Demo Bob",
+    "age": 22,
+    "group": 2
+  },
+  {
+    "id": "1003",
+    "name": "Demo Carol",
+    "age": 23,
+    "group": 2
+  },
+  {
+    "id": "1765116193055",
+    "name": "а",
+    "age": 8,
+    "group": 2
+  },
+  {
+    "id": "1765116202278",
+    "name": "ц",
+    "age": 3,
+    "group": 1
+  }
+]
