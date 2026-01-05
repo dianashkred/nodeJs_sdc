@@ -1,0 +1,6 @@
+CREATE TABLE students (
+  id VARCHAR(20) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  age INTEGER NOT NULL,
+  group_number INTEGER NOT NULL
+);

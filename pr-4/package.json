@@ -1,0 +1,18 @@
+{
+  "name": "pr-3",
+  "version": "1.0.0",
+  "description": "Practical Task 3 - HTTP Server + Express API",
+  "main": "api-server.js",
+  "scripts": {
+    "start": "node api-server.js",
+    "basic": "node basic-server.js",
+    "test": "echo \"No tests for this project\""
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "joi": "^18.0.2",
+    "pg": "^8.16.3"
+  }
+}
