@@ -1,0 +1,59 @@
+CREATE TABLE students (
+  id VARCHAR(20) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  age INTEGER NOT NULL,
+  group_number INTEGER NOT NULL
+);
+
+
+
+CREATE TABLE IF NOT EXISTS roles (
+  name VARCHAR(50) PRIMARY KEY
+);
+
+INSERT INTO roles (name) VALUES
+  ('ADMIN'),
+  ('TEACHER'),
+  ('STUDENT')
+ON CONFLICT (name) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS users (
+  id UUID PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  surname VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role VARCHAR(50) NOT NULL REFERENCES roles(name),
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS students (
+  id VARCHAR(20) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  age INTEGER NOT NULL,
+  group_number INTEGER NOT NULL
+);
+
+ALTER TABLE students
+  ADD COLUMN IF NOT EXISTS user_id UUID UNIQUE;
+
+ALTER TABLE students
+  ADD CONSTRAINT students_user_fk
+  FOREIGN KEY (user_id) REFERENCES users(id);
+
+CREATE TABLE IF NOT EXISTS subjects (
+  id SERIAL PRIMARY KEY,
+  subject_name VARCHAR(120) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE IF NOT EXISTS grades (
+  id SERIAL PRIMARY KEY,
+  student_id VARCHAR(20) NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+  subject_id INTEGER NOT NULL REFERENCES subjects(id) ON DELETE CASCADE,
+  grade INTEGER NOT NULL CHECK (grade >= 0 AND grade <= 100),
+  evaluated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_grades_student_id ON grades(student_id);
+CREATE INDEX IF NOT EXISTS idx_grades_subject_id ON grades(subject_id);
