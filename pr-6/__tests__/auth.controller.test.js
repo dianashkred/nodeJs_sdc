@@ -1,6 +1,10 @@
 const request = require("supertest");
 const app = require("../api-server");
-
+let server;
+beforeAll(done => {
+  // Запускаем сервер перед выполнением тестов
+  server = app.listen(3000, done); // Порт можно настроить через переменную окружения или параметр
+});
 afterAll((done) => {
   app.close(done);
 });
