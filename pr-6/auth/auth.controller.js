@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
-const { UsersService } = require("../services/users.service");
+const { UsersService } = require("../services/Users.service");
 const { UserRole } = require("../models/enums/UserRole.enum");
 const {
   UserRegistrationSchema,
