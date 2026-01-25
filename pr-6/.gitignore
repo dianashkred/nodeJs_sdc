@@ -40,4 +40,3 @@ frontend/dist/
 
 # Backup folder (если не хочешь коммитить локальные бэкапы)
 storage/backups/
-

@@ -1,4 +1,4 @@
-const { DatabaseClient } = require("../database/database.client");
+const DatabaseClient = require("../database/database.client");
 const { User } = require("../models/User/User");
 
 class UsersService {

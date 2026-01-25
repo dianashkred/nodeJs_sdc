@@ -1,5 +1,7 @@
 require("dotenv").config();
-
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+const expressStatusMonitor = require('express-status-monitor');
 const express = require("express");
 const cors = require("cors");
 
@@ -26,3 +28,11 @@ app.use("/api/students", studentsRouter);
 app.listen(PORT, () => {
   console.log(`API server running at http://localhost:${PORT}`);
 });
+
+
+app.use(expressStatusMonitor());
+app.get('/status', expressStatusMonitor());
+
+
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));

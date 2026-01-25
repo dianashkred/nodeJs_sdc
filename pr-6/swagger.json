@@ -1,0 +1,30 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API documentation for Student Management System",
+    "version": "1.0.0",
+    "title": "Student API"
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Login a user",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          }
+        }
+      }
+    }
+  }
+}

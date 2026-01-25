@@ -1,34 +1,53 @@
-const os = require("os");
+const winston = require('winston');
+const { format } = winston;
+
+const customFormat = format.combine(
+  format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+  format.printf(({ timestamp, level, message }) => {
+    return `${timestamp} ${level}: ${message}`;
+  })
+);
+
+const logger = winston.createLogger({
+  level: 'info', 
+  format: customFormat,
+  transports: [
+    new winston.transports.Console({ format: format.simple() }), 
+    new winston.transports.File({ filename: 'combined.log' }), 
+    new winston.transports.File({ filename: 'error.log', level: 'error' }), 
+  ],
+});
+
+if (process.env.NODE_ENV === 'development') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.simple(),
+    ),
+  }));
+} else {
+  logger.add(new winston.transports.File({ filename: 'combined.log' }));
+}
 
 class Logger {
-  #isVerboseModeEnabled = false;
-  #isQuietModeEnabled = false;
-
-  constructor(verbose = false, quiet = false) {
-    this.#isVerboseModeEnabled = verbose;
-    this.#isQuietModeEnabled = quiet;
+  log(level, message) {
+    logger.log(level, message);
   }
 
-  log(...data) {
-    if (this.#isQuietModeEnabled) return;
+  info(message) {
+    logger.info(message);
+  }
 
-    const timestamp = new Date().toISOString();
+  error(message) {
+    logger.error(message);
+  }
 
-    if (!this.#isVerboseModeEnabled) {
-      console.log(`[${timestamp}]`, ...data);
-      return;
-    }
+  warn(message) {
+    logger.warn(message);
+  }
 
-    console.log(
-      `[${timestamp}]`,
-      ...data,
-      "\n--- System Info ---",
-      "\nPlatform:", os.platform(),
-      "\nCPU:", os.cpus()[0].model,
-      "\nTotal memory:", os.totalmem(),
-      "\nFree memory:", os.freemem(),
-      "\n-------------------"
-    );
+  debug(message) {
+    logger.debug(message);
   }
 }
 
