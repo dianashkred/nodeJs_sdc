@@ -14,13 +14,3 @@ describe("Students API integration", () => {
 });
 
 
-/*const request = require("supertest");
-const app = require("../../server");
-
-describe("Students API", () => {
-  test("GET /api/students without token -> 401", async () => {
-    const res = await request(app).get("/api/students");
-    expect(res.statusCode).toBe(401);
-  });
-});
-*/

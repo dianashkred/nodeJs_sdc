@@ -16,30 +16,3 @@ describe("Auth integration", () => {
   });
 });
 
-/*
-const request = require("supertest");
-const app = require("../../server");
-
-describe("Auth integration tests", () => {
-  test("POST /registration", async () => {
-    const res = await request(app).post("/registration").send({
-      name: "Test",
-      surname: "User",
-      email: "test@test.com",
-      password: "123456",
-    });
-
-    expect([200, 409]).toContain(res.statusCode);
-  });
-
-  test("POST /login", async () => {
-    const res = await request(app).post("/login").send({
-      email: "test@test.com",
-      password: "123456",
-    });
-
-    expect([200, 401, 403]).toContain(res.statusCode);
-  });
-});
-
-*/
