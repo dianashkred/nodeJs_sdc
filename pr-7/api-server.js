@@ -38,7 +38,7 @@ if (require.main === module) {
 app.use(
   "/status",
   authTokenGuard,
-  roleGuard(["ADMIN", "MODERATOR"]),
+  roleGuard(["ADMIN"]),
   statusMonitor()
 );
 
