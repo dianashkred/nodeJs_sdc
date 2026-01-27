@@ -8,10 +8,6 @@ function authTokenGuard(req, res, next) {
     logger.warn("Unauthorized request: no auth header");
     return res.sendStatus(401);
   }
-  if (!decoded) {
-    logger.warn("Unauthorized request: invalid token");
-    return res.sendStatus(401);
-  }
 
   const [scheme, token] = authHeader.split(" ");
   if (scheme !== "Bearer" || !token) {

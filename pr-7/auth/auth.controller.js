@@ -53,6 +53,10 @@ class AuthController {
   };
 
   registration = async (req, res) => {
+    if (existing) {
+      logger.warn("Registration failed: user exists", { email: value.email });
+      return res.status(409).send("User Already Exists");
+    }
     const { error, value } = UserRegistrationSchema.validate(req.body);
     if (error) {
       return res.status(400).send(error.details.map((i) => i.message));
@@ -65,7 +69,6 @@ class AuthController {
 
     const role = value.role || UserRole.STUDENT;
     const hashedPassword = await AuthController.hashPassword(value.password);
-    logger.warn("Registration failed: user exists", { email: value.email });
 
     const newUser = new User(
       AuthController.generateUUID(),
@@ -76,14 +79,13 @@ class AuthController {
       role
     ); 
 
-    logger.info("User registered", {
-      userId: created.id,
-      role: created.role,
-      });
-
-
+    
     try {
       const created = await this.usersService.addNewUser(newUser);
+      logger.info("User registered", {
+        userId: created.id,
+        role: created.role,
+      });
       return res.status(200).json(created);
     } catch (e) {
       logger.error("Registration error", { error: e.message });

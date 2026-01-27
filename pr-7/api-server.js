@@ -13,10 +13,9 @@ const logger = require("./logger/winston.logger");
 const { roleGuard } = require("./auth/guard/role.guard");
 
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.use(compression());
 
 const authController = new AuthController();
 
@@ -44,7 +43,6 @@ app.use(
 );
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use(compression());
 
 module.exports = { app };
 

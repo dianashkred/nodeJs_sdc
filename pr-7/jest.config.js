@@ -14,6 +14,5 @@ module.exports = {
     "!**/swagger.js",
     "!**/api-server.js",
   ],
-  coverageDirectory: "coverage",
   coverageReporters: ["text", "html"],
 };
