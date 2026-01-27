@@ -1,8 +1,15 @@
 const { JWT } = require("../utils/jwt");
+const logger = require("../../logger/winston.logger");
+
 
 function authTokenGuard(req, res, next) {
   const authHeader = req.headers["authorization"];
   if (!authHeader) {
+    logger.warn("Unauthorized request: no auth header");
+    return res.sendStatus(401);
+  }
+  if (!decoded) {
+    logger.warn("Unauthorized request: invalid token");
     return res.sendStatus(401);
   }
 

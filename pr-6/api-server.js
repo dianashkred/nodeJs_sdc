@@ -1,12 +1,18 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
+const studentsRouter = require("./routes/students.router");
+
 const { AuthController } = require("./auth/auth.controller");
 const { authTokenGuard } = require("./auth/guard/authToken.guard");
+const statusMonitor = require("express-status-monitor");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
-const expressStatusMonitor = require("express-status-monitor");
+const swaggerSpec = require("./swagger");
+const logger = require("./logger/winston.logger");
 
-const studentsRouter = require("./routes/students.router");
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,15 +26,14 @@ app.post("/login", authController.login);
 app.post("/registration", authController.registration);
 
 app.use(authTokenGuard);
+
 app.use("/api/students", studentsRouter);
 
-app.use(expressStatusMonitor());
-app.get("/status", expressStatusMonitor());
-
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 app.listen(PORT, () => {
-  console.log(`API server running at http://localhost:${PORT}`);
+  logger.info(`API server running at http://localhost:${PORT}`);
 });
 
-module.exports = app;
+app.use(statusMonitor());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
