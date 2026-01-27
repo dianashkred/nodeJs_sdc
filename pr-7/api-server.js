@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+const compression = require("compression");
 const express = require("express");
 const cors = require("cors");
 const studentsRouter = require("./routes/students.router");
@@ -10,6 +10,7 @@ const statusMonitor = require("express-status-monitor");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
 const logger = require("./logger/winston.logger");
+const { roleGuard } = require("./auth/guard/role.guard");
 
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -29,12 +30,21 @@ app.use(authTokenGuard);
 
 app.use("/api/students", studentsRouter);
 
-app.listen(PORT, () => {
-  logger.info(`API server running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    logger.info(`API server running at http://localhost:${PORT}`);
+  });
+}
 
-app.use(statusMonitor());
+app.use(
+  "/status",
+  authTokenGuard,
+  roleGuard(["ADMIN", "MODERATOR"]),
+  statusMonitor()
+);
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
+app.use(compression());
 
 module.exports = { app };
+

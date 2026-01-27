@@ -1,0 +1,30 @@
+{
+  "name": "pr-3",
+  "version": "1.0.0",
+  "description": "Practical Task 3 - HTTP Server + Express API",
+  "main": "api-server.js",
+  "scripts": {
+    "start": "node api-server.js",
+    "basic": "node basic-server.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-status-monitor": "^1.3.4",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.16.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2"
+  }
+}
