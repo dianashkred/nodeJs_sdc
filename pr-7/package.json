@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node api-server.js",
     "basic": "node basic-server.js",
-    "test": "NODE_ENV=test jest",
-    "test:coverage": "jest --coverage"
+    "test": "cross-env NODE_ENV=test jest",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
