@@ -21,9 +21,10 @@ class AuthController {
     if (error) {
       return res.status(400).send(error.details.map((i) => i.message));
     }
+
     logger.info("Login attempt", { email: value.email });
+
     const user = await this.usersService.getUserByEmail(value.email);
-    
     if (!user) {
       logger.warn("Login failed: user not found", { email: value.email });
       return res.status(401).send("User with such email was not found");
@@ -44,26 +45,25 @@ class AuthController {
       email: user.email,
       role: user.role,
     });
+
     logger.info("Login successful", { userId: user.id, role: user.role });
 
     return res.status(200).json({
       accessToken: `Bearer ${token}`,
     });
-
   };
 
   registration = async (req, res) => {
-    if (existing) {
-      logger.warn("Registration failed: user exists", { email: value.email });
-      return res.status(409).send("User Already Exists");
-    }
     const { error, value } = UserRegistrationSchema.validate(req.body);
     if (error) {
       return res.status(400).send(error.details.map((i) => i.message));
     }
+
     logger.info("Registration attempt", { email: value.email });
+
     const existing = await this.usersService.getUserByEmail(value.email);
     if (existing) {
+      logger.warn("Registration failed: user exists", { email: value.email });
       return res.status(409).send("User Already Exists");
     }
 
@@ -77,23 +77,18 @@ class AuthController {
       value.email,
       hashedPassword,
       role
-    ); 
+    );
 
-    
     try {
       const created = await this.usersService.addNewUser(newUser);
-      logger.info("User registered", {
-        userId: created.id,
-        role: created.role,
-      });
+      logger.info("User registered", { userId: created.id, role: created.role });
       return res.status(200).json(created);
     } catch (e) {
       logger.error("Registration error", { error: e.message });
       return res.status(500).send("Something went wrong");
     }
-
   };
-   
+
   static async hashPassword(password) {
     const saltRounds = 10;
     return bcrypt.hash(password, saltRounds);
@@ -106,7 +101,6 @@ class AuthController {
   static generateUUID() {
     return crypto.randomUUID();
   }
-
 }
 
 module.exports = { AuthController };

@@ -7,6 +7,7 @@ describe("roleGuard", () => {
     const next = jest.fn();
 
     roleGuard(["ADMIN"])(req, res, next);
+
     expect(next).toHaveBeenCalled();
   });
 
@@ -18,17 +19,21 @@ describe("roleGuard", () => {
     };
 
     roleGuard(["ADMIN"])(req, res, jest.fn());
+
     expect(res.status).toHaveBeenCalledWith(403);
+    expect(res.send).toHaveBeenCalled();
   });
 
   test("returns 401 if user not present", () => {
     const req = {};
     const res = {
-       sendStatus: jest.fn(),
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
     };
 
     roleGuard(["ADMIN"])(req, res, jest.fn());
-    expect(res.sendStatus).toHaveBeenCalledWith(401);
-  });
 
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.send).toHaveBeenCalled();
+  });
 });

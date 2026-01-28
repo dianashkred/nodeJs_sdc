@@ -7,15 +7,19 @@ class DatabaseClient {
 
   constructor() {
     this.pool = new Pool(config);
+  }
 
-    this.pool
-      .connect()
-      .then(() => {
-        console.log("Connected to PostgreSQL database");
-      })
-      .catch((err) => {
-        console.error("Failed to connect to PostgreSQL:", err);
-      });
+  async connect() {
+    if (this._connected) return;
+
+    await this.pool.connect();
+    this._connected = true;
+
+   if (process.env.NODE_ENV !== "test") {
+     this.pool.connect().then(() => {
+      console.log("Connected to PostgreSQL database");
+    });
+    }
   }
 
   static getInstance() {
@@ -26,6 +30,7 @@ class DatabaseClient {
   }
 
   async query(queryText, values) {
+    await this.connect();
     return this.pool.query(queryText, values);
   }
 }
